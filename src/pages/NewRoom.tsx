@@ -1,35 +1,59 @@
 import React from 'react';
-import { useContext } from 'react';
 
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../App';
+import { FormEvent, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
-import googleIcon from '../assets/images/google-icon.svg';
+import logoImg from '../assets/images/logo.svg';
+
 import Button from '../components/Button';
+import { database } from '../services/firebase';
+import { useAuth } from '../hooks/useAuth';
 
 import '../styles/auth.scss';
 
-const NewRoom = () => {
-  const { user, signInWithGoogle } = useContext(AuthContext);
+export const NewRoom = () => {
+  const { user } = useAuth();
+  const history = useHistory();
+  const [newRoom, setNewRoom] = useState('');
+
+  async function handleCreateRoom(event: FormEvent) {
+    event.preventDefault();
+
+    if (newRoom.trim() === '') {
+      return;
+    }
+
+    const roomRef = database.ref('rooms');
+
+    const firebaseRoom = await roomRef.push({
+      title: newRoom,
+      authorId: user?.id,
+    });
+
+    history.push(`/rooms/${firebaseRoom.key}`);
+  }
 
   return (
     <div id='page-auth'>
       <aside>
-        {/* <img src={bannerImg} alt="" /> */}
-        <strong>Create Q&amp;/A chat rooms</strong>
+        <strong>Create Q&amp;A chat rooms</strong>
         <p>Get your questions answered in real time</p>
       </aside>
       <main>
         <div className='main-content'>
-          <h1>{user?.name}</h1>
-          <h2>Create A New Room</h2>
-          <div className='separator'>Or join a room</div>
-          <form>
-            <input type='text' placeholder='Place room ID' />
+          <h2>Create new room</h2>
+          <form onSubmit={handleCreateRoom}>
+            <input
+              type='text'
+              placeholder='Room name'
+              onChange={(event) => setNewRoom(event.target.value)}
+              value={newRoom}
+            />
             <Button type='submit'>Create Room</Button>
           </form>
           <p>
-            Join an existent room? <Link to='/'>Click to join</Link>
+            Would you like to join an existent room instead?{' '}
+            <Link to='/'>Click here</Link>
           </p>
         </div>
       </main>
