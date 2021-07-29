@@ -4,11 +4,11 @@ import { ReactNode } from 'react';
 import copyImg from '../assets/images/copy.svg';
 import '../styles/roomCode.scss';
 
-type RoomCodeProps = {
+type RoomCodePropType = {
   code: string;
 };
 
-const RoomCode = (props: RoomCodeProps) => {
+const RoomCode = (props: RoomCodePropType) => {
   const copyRoomCodeToClipboard = () => {
     navigator.clipboard.writeText(props.code);
   };

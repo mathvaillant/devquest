@@ -3,75 +3,31 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import Button from '../components/Button';
+import Question from '../components/Question';
 import RoomCode from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
+import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
 import '../styles/room.scss';
-
-type FirebaseQuestionsTypes = Record<
-  string,
-  {
-    author: {
-      name: string;
-      avatar: string;
-    };
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-  }
->;
 
 type RoomParamsType = {
   id: string;
 };
 
-type QuestionType = {
-  id: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
+type RoomIdType = {
+  roomId: string;
 };
 
 const Room = () => {
   const { user } = useAuth();
   const [newQuestion, setNewQuestion] = useState('');
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [title, setTitle] = useState('');
-
   const params = useParams<RoomParamsType>();
   const roomId = params.id;
 
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-
-    roomRef.on('value', (room) => {
-      const databaseRoom = room.val();
-      const FirebaseQuestions: FirebaseQuestionsTypes =
-        databaseRoom.questions ?? {};
-
-      const parsedQuestions = Object.entries(FirebaseQuestions).map(
-        ([key, value]) => {
-          return {
-            id: key,
-            content: value.content,
-            author: value.author,
-            isAnswered: value.isAnswered,
-            isHighlighted: value.isHighlighted,
-          };
-        }
-      );
-      setTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
-    });
-  }, [roomId]);
+  const { questions, title } = useRoom(roomId);
 
   const handlePostQuestion = async (e: FormEvent) => {
     e.preventDefault();
@@ -138,6 +94,15 @@ const Room = () => {
             </Button>
           </div>
         </form>
+        <div className='question-list'>
+          {questions.map((question) => (
+            <Question
+              key={question.id}
+              content={question.content}
+              author={question.author}
+            />
+          ))}
+        </div>
       </main>
     </div>
   );
