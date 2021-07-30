@@ -1,5 +1,4 @@
 import React, { memo, ReactNode } from 'react';
-import { auth } from '../services/firebase';
 
 import '../styles/question.scss';
 

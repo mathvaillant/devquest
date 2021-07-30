@@ -12,7 +12,10 @@ import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
 import deleteImg from '../assets/images/delete.svg';
+import LogoDark from '../assets/images/logoDark.png';
+
 import '../styles/room.scss';
+import { Link } from 'react-router-dom';
 
 type RoomParamsType = {
   id: string;
@@ -71,7 +74,10 @@ const AdminRoom = () => {
     <div id='page-room'>
       <header>
         <div className='content'>
-          {/*  <img src={Logo} alt="" /> */}
+          <Link to='/' className='content-logo'>
+            <span>DevQuest</span>
+            <img width='45px' height='45px' src={LogoDark} alt='' />
+          </Link>
           <div>
             <RoomCode code={params.id} />
             <Button isOutlined onClick={handleRemoveRoom}>

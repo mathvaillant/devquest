@@ -8,6 +8,8 @@ import Button from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 
+import LogoWhite from '../assets/images/logoWhite.png';
+
 import '../styles/auth.scss';
 
 type RoomCodeType = string;
@@ -48,7 +50,7 @@ const Home = () => {
   return (
     <div id='page-auth'>
       <aside>
-        {/* <img src={bannerImg} alt="" /> */}
+        <img width='62px' height='62px' src={LogoWhite} alt='' />
         <strong>Create Q&amp;A chat rooms</strong>
         <p>Get your questions answered in real time</p>
       </aside>
