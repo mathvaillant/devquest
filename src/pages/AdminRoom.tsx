@@ -2,7 +2,7 @@ import React, { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 
 import Button from '../components/Button';
 import Question from '../components/Question';
@@ -11,6 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
+import deleteImg from '../assets/images/delete.svg';
 import '../styles/room.scss';
 
 type RoomParamsType = {
@@ -22,6 +23,7 @@ const AdminRoom = () => {
   const [newQuestion, setNewQuestion] = useState('');
   const params = useParams<RoomParamsType>();
   const roomId = params.id;
+  const history = useHistory();
 
   const { questions, title } = useRoom(roomId);
 
@@ -52,6 +54,19 @@ const AdminRoom = () => {
     setNewQuestion('');
   };
 
+  const handleDeleteQuestion = async (questionId: string) => {
+    if (window.confirm('Delete question?')) {
+      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
+    }
+  };
+
+  const handleRemoveRoom = async () => {
+    await database.ref(`rooms/${roomId}`).update({
+      endedAt: new Date(),
+    });
+    history.push('/');
+  };
+
   return (
     <div id='page-room'>
       <header>
@@ -59,7 +74,9 @@ const AdminRoom = () => {
           {/*  <img src={Logo} alt="" /> */}
           <div>
             <RoomCode code={params.id} />
-            <Button isOutlined>Delete Room</Button>
+            <Button isOutlined onClick={handleRemoveRoom}>
+              Delete Room
+            </Button>
           </div>
         </div>
       </header>
@@ -98,8 +115,11 @@ const AdminRoom = () => {
             <Question
               key={question.id}
               content={question.content}
-              author={question.author}
-            />
+              author={question.author}>
+              <button onClick={() => handleDeleteQuestion(question.id)}>
+                <img src={deleteImg} alt='delete question' />
+              </button>
+            </Question>
           ))}
         </div>
       </main>

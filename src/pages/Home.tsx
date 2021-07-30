@@ -36,9 +36,13 @@ const Home = () => {
 
     if (!roomRef.exists()) {
       alert('Room does not exists.');
-    } else {
-      history.push(`/rooms/${roomCode}`);
     }
+
+    if (roomRef.val().endedAt) {
+      alert('Room Already Closed');
+      return;
+    }
+    history.push(`/rooms/${roomCode}`);
   };
 
   return (

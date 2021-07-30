@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, memo } from 'react';
 
 import '../styles/button.scss';
 
@@ -14,4 +14,4 @@ const Button = ({ isOutlined = false, ...props }: ButtonProps) => {
   );
 };
 
-export default Button;
+export default memo(Button);

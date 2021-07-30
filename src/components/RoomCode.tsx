@@ -1,4 +1,5 @@
 import React from 'react';
+import { memo } from 'react';
 import { ReactNode } from 'react';
 
 import copyImg from '../assets/images/copy.svg';
@@ -23,4 +24,4 @@ const RoomCode = (props: RoomCodePropType) => {
   );
 };
 
-export default RoomCode;
+export default memo(RoomCode);
