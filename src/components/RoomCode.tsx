@@ -1,6 +1,5 @@
 import React from 'react';
 import { memo } from 'react';
-import { ReactNode } from 'react';
 
 import copyImg from '../assets/images/copy.svg';
 import '../styles/roomCode.scss';

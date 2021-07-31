@@ -1,4 +1,4 @@
-import React, { FormEvent, memo, useEffect, useState } from 'react';
+import React, { FormEvent, memo, useState } from 'react';
 
 import { useParams } from 'react-router';
 
@@ -16,10 +16,6 @@ import { Link } from 'react-router-dom';
 
 type RoomParamsType = {
   id: string;
-};
-
-type RoomIdType = {
-  roomId: string;
 };
 
 const Room = () => {
@@ -81,7 +77,7 @@ const Room = () => {
             <img width='45px' height='45px' src={LogoDark} alt='' />
           </Link>
 
-          <RoomCode code={params.id} />
+          <RoomCode code={params.id.substr(1, 7)} />
         </div>
       </header>
 
@@ -119,7 +115,9 @@ const Room = () => {
             <Question
               key={question.id}
               content={question.content}
-              author={question.author}>
+              author={question.author}
+              isAnswered={question.isAnswered}
+              isHighlighted={question.isHighlighted}>
               <button
                 onClick={() => handleLikeQuestion(question.id, question.likeId)}
                 className={`like-button ${question.likeId ? 'liked' : ''}`}

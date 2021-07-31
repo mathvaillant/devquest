@@ -11,11 +11,22 @@ type QuestionPropTypes = {
   children?: ReactNode;
   likeCount?: number;
   likeId?: string | undefined;
+  isAnswered?: boolean;
+  isHighlighted?: boolean;
 };
 
-const Question = ({ content, author, children }: QuestionPropTypes) => {
+const Question = ({
+  content,
+  author,
+  children,
+  isAnswered = false,
+  isHighlighted = false,
+}: QuestionPropTypes) => {
   return (
-    <div className='question'>
+    <div
+      className={`question 
+      ${isAnswered ? 'answered' : ''} 
+      ${isHighlighted ? 'highlighted' : ''}`}>
       <p>{content}</p>
       <footer>
         <div className='user-info'>

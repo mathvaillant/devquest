@@ -5,12 +5,12 @@
   padding: 24px;
 
   & + .question {
-    margin-top: 8px;
+    margin: 8px 0px;
   }
 
   &.highlighted {
-    background: #f4f0ff;
-    border: 1px solid #835afd;
+    background: #f4f0ff !important;
+    border: 1px solid black;
 
     footer .user-info span {
       color: #29292e;
@@ -19,6 +19,7 @@
 
   &.answered {
     background: #dbdcdd;
+    opacity: 0.8;
   }
 
   p {
@@ -66,10 +67,10 @@
         gap: 8px;
 
         &.liked {
-          color: #835afd;
+          color: #000;
 
           svg path {
-            stroke: #835afd;
+            stroke: #000;
           }
         }
       }
