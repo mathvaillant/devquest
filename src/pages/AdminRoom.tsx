@@ -137,13 +137,17 @@ const AdminRoom = () => {
               author={question.author}
               isAnswered={question.isAnswered}
               isHighlighted={question.isHighlighted}>
-              <button
-                onClick={() => handleCheckQuestionAsAnswered(question.id)}>
-                <img src={checkImg} alt='mark question as answered' />
-              </button>
-              <button onClick={() => handleAnswerQuestion(question.id)}>
-                <img src={answerImg} alt='answer question' />
-              </button>
+              {!question.isAnswered && (
+                <>
+                  <button
+                    onClick={() => handleCheckQuestionAsAnswered(question.id)}>
+                    <img src={checkImg} alt='mark question as answered' />
+                  </button>
+                  <button onClick={() => handleAnswerQuestion(question.id)}>
+                    <img src={answerImg} alt='answer question' />
+                  </button>
+                </>
+              )}
               <button onClick={() => handleDeleteQuestion(question.id)}>
                 <img src={deleteImg} alt='delete question' />
               </button>
